@@ -1,0 +1,25 @@
+{
+  "password": "${lounge_password}",
+  "log": false,
+  "awayMessage": "",
+  "networks": [
+%{ for network in primary_irc_networks ~}
+    {
+      "awayMessage": "",
+      "nick": "${username}",
+      "name": "${network.name}_znc",
+      "host": "${znc_server}",
+      "port": 6697,
+      "tls": true,
+      "password": "${znc_password_plaintext}",
+      "username": "${username}@lounge/${network.name}",
+      "realname": "${name}",
+      "commands": [],
+      "hostname": null,
+      "channels": []
+    },
+%{ endfor ~}
+{}
+  ],
+  "sessions": {}
+}

@@ -1,0 +1,38 @@
+[global]
+  checkNewVersion = true
+  sendAnonymousUsage = false
+
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+  [entryPoints.websecure]
+    address = ":443"
+
+  [entryPoints.irc]
+    address = ":6697"
+
+[log]
+  level = "DEBUG"
+
+[accessLog]
+
+[providers.docker]
+  endpoint = "unix:///var/run/docker.sock"
+  defaultRule = "Host(`{{ normalize .Name }}.${domain}`)"
+  exposedByDefault = false
+
+[providers.file]
+  filename = "/etc/traefik/dynamic.toml"
+
+[metrics]
+  [metrics.prometheus]
+
+[certificatesResolvers]
+  [certificatesResolvers.default]
+    [certificatesResolvers.default.acme]
+      email = "${email}"
+      storage = "/acme/acme.json"
+      [certificatesResolvers.default.acme.dnsChallenge]
+        provider = "cloudflare"
+        delayBeforeCheck = 0

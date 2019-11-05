@@ -1,0 +1,15 @@
+[mta]
+incoming: mailman.mta.exim4.LMTP
+outgoing: mailman.mta.deliver.deliver
+lmtp_host: 172.25.195.2
+lmtp_port: 8024
+smtp_host: 172.25.195.4
+smtp_port: 25
+configuration: python:mailman.config.exim4
+
+[mailman]
+# This address is the "site owner" address.  Certain messages which must be
+# delivered to a human, but which can't be delivered to a list owner (e.g. a
+# bounce from a list owner), will be sent to this address.  It should point to
+# a human.
+site_owner: ${email}
