@@ -1,0 +1,81 @@
+variable base_domain {}
+variable name {}
+variable username {}
+variable email {}
+variable elastic_ip {}
+variable hal_acme_email {}
+variable sal_acme_email {}
+variable samba_password {}
+variable transmission_auth {}
+variable radarr_auth {}
+variable sonarr_auth {}
+variable cloudflare_username {}
+variable cloudflare_key {}
+variable znc_password_plaintext {}
+variable znc_password_salt {}
+variable primary_irc_networks {}
+variable lounge_password {}
+variable mysql_root_password {}
+variable firefly_app_key {}
+variable mysql_firefly_password {}
+variable firefox_sync_secret {}
+variable radicale_auth {}
+variable httptunnel_clients {}
+variable cloud_torrent_auth {}
+variable monica_app_key {}
+variable mysql_monica_password {}
+variable monica_hash_salt {}
+variable dokuwiki_password {}
+variable vscode_password {}
+variable mysql_mailman_password {}
+variable mailman_hyperkitty_api_key {}
+variable mailman_secret_key {}
+variable wallabag_secret {}
+
+module "hal-9000" {
+  source = "./hal-9000"
+  hostname = "hal-9000"
+  domain = "hal-9000.${var.base_domain}"
+  name = var.name
+  username = var.username
+  email = var.email
+  hal_acme_email = var.hal_acme_email
+  samba_password = var.samba_password
+  transmission_auth = var.transmission_auth
+  radarr_auth = var.radarr_auth
+  sonarr_auth = var.sonarr_auth
+  cloudflare_username = var.cloudflare_username
+  cloudflare_key = var.cloudflare_key
+}
+
+module "sal-9000" {
+  source = "./sal-9000"
+  hostname = "sal-9000"
+  domain = "sal-9000.${var.base_domain}"
+  name = var.name
+  username = var.username
+  email = var.email
+  sal_acme_email = var.sal_acme_email
+  cloudflare_username = var.cloudflare_username
+  cloudflare_key = var.cloudflare_key
+  znc_password_plaintext = var.znc_password_plaintext
+  znc_password_salt = var.znc_password_salt
+  primary_irc_networks = var.primary_irc_networks
+  lounge_password = var.lounge_password
+  mysql_root_password = var.mysql_root_password
+  firefly_app_key = var.firefly_app_key
+  mysql_firefly_password = var.mysql_firefly_password
+  firefox_sync_secret = var.firefox_sync_secret
+  radicale_auth = var.radicale_auth
+  httptunnel_clients = var.httptunnel_clients
+  cloud_torrent_auth = var.cloud_torrent_auth
+  monica_app_key = var.monica_app_key
+  mysql_monica_password = var.mysql_monica_password
+  monica_hash_salt = var.monica_hash_salt
+  dokuwiki_password = var.dokuwiki_password
+  vscode_password = var.vscode_password
+  mysql_mailman_password = var.mysql_mailman_password
+  mailman_hyperkitty_api_key = var.mailman_hyperkitty_api_key
+  mailman_secret_key = var.mailman_secret_key
+  wallabag_secret = var.wallabag_secret
+}
