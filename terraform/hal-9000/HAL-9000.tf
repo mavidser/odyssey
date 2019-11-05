@@ -3,6 +3,8 @@ variable "username" {}
 variable "email" {}
 variable "hostname" {}
 variable "domain" {}
+variable "base_domain" {}
+variable "sal_domain" {}
 
 provider "docker" {
   version = "2.1.1"

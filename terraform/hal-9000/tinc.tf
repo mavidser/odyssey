@@ -31,6 +31,7 @@ resource "docker_container" "tinc" {
   upload {
     content = templatefile("${path.module}/config/tinc/hosts/sal_9000.tmpl", {
       sal_public_key = file("${path.module}/keys/tinc/sal_9000.pub")
+      domain = var.sal_domain
     })
     file = "/etc/tinc/hosts/sal_9000"
   }

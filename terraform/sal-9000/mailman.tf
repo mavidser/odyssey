@@ -32,7 +32,9 @@ resource "docker_container" "mailman-core" {
     name = docker_network.mysql.name
   }
   upload {
-    content = file("${path.module}/config/mailman/core/mailman-extra.cfg")
+    content = templatefile("${path.module}/config/mailman/core/mailman-extra.cfg.tmpl", {
+      email = var.email
+    })
     file = "/opt/mailman/core/mailman-extra.cfg"
   }
 }
@@ -55,17 +57,17 @@ resource "docker_container" "mailman-web" {
     "DYLD_LIBRARY_PATH=/usr/local/mysql/lib/",
     "SMTP_HOST=172.25.195.4",
     "MAILMAN_HOST_IP=172.25.195.2",
-    "SERVE_FROM_DOMAIN=lists.sidverma.io",
+    "SERVE_FROM_DOMAIN=lists.${var.base_domain}",
     "DJANGO_ALLOWED_HOSTS=172.25.195.3",
     "UWSGI_STATIC_MAP=/static=/opt/mailman-web-data/static",
-    "MAILMAN_ADMIN_USER=mavidser",
-    "MAILMAN_ADMIN_EMAIL=me@sidverma.io",
+    "MAILMAN_ADMIN_USER=${var.username}",
+    "MAILMAN_ADMIN_EMAIL=${var.email}",
   ]
   labels = {
     "name" = "mailman-web"
     "traefik.enable" = "true"
-    "traefik.http.routers.mailman.rule" = "Host(`lists.sidverma.io`)"
-    "traefik.http.routers.mailman-ssl.rule" = "Host(`lists.sidverma.io`)"
+    "traefik.http.routers.mailman.rule" = "Host(`lists.${var.base_domain}`)"
+    "traefik.http.routers.mailman-ssl.rule" = "Host(`lists.${var.base_domain}`)"
     "traefik.http.routers.mailman.entrypoints" = "web"
     "traefik.http.routers.mailman.middlewares" = "https-redirect@file"
     "traefik.http.routers.mailman-ssl.tls.certresolver" = "default"
@@ -89,7 +91,7 @@ resource "docker_container" "exim4" {
   must_run = true
   destroy_grace_seconds = 30
   restart = "unless-stopped"
-  hostname = "lists.sidverma.io"
+  hostname = "lists.${var.base_domain}"
   volumes {
     host_path = "/opt/mailman/core"
     container_path = "/opt/mailman/core"
@@ -107,11 +109,15 @@ resource "docker_container" "exim4" {
     file = "/etc/exim4/update-exim4.conf.conf"
   }
   upload {
-    content = file("${path.module}/config/mailman/exim4/00_local_macros")
+    content = templatefile("${path.module}/config/mailman/exim4/00_local_macros.tmpl", {
+      base_domain = var.base_domain
+    })
     file = "/etc/exim4/conf.d/main/00_local_macros"
   }
   upload {
-    content = file("${path.module}/config/mailman/exim4/25_mm3_macros")
+    content = templatefile("${path.module}/config/mailman/exim4/25_mm3_macros.tmpl", {
+      base_domain = var.base_domain
+    })
     file = "/etc/exim4/conf.d/main/25_mm3_macros"
   }
   upload {
@@ -123,8 +129,8 @@ resource "docker_container" "exim4" {
     file = "/etc/exim4/conf.d/transport/55_mm3_transport"
   }
   upload {
-    content = file("${path.module}/keys/mailman/lists.sidverma.io-private.pem")
-    file = "/etc/exim4/dkim/lists.sidverma.io-private.pem"
+    content = file("${path.module}/keys/mailman/privatekey.pem")
+    file = "/etc/exim4/dkim/privatekey.pem"
   }
   labels = {
     name = "exim4"

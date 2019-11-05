@@ -35,7 +35,9 @@ variable wallabag_secret {}
 module "hal-9000" {
   source = "./hal-9000"
   hostname = "hal-9000"
+  base_domain = var.base_domain
   domain = "hal-9000.${var.base_domain}"
+  sal_domain = "sal-9000.${var.base_domain}"
   name = var.name
   username = var.username
   email = var.email
@@ -51,6 +53,7 @@ module "hal-9000" {
 module "sal-9000" {
   source = "./sal-9000"
   hostname = "sal-9000"
+  base_domain = var.base_domain
   domain = "sal-9000.${var.base_domain}"
   name = var.name
   username = var.username
