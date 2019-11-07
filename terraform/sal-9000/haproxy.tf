@@ -5,7 +5,9 @@ resource "docker_container" "haproxy" {
   destroy_grace_seconds = 30
   restart = "unless-stopped"
   upload {
-    content = file("${path.module}/config/haproxy/haproxy.cfg")
+    content = templatefile("${path.module}/config/haproxy/haproxy.cfg", {
+      sal_ip_address = var.ip_address
+    })
     file = "/usr/local/etc/haproxy/haproxy.cfg"
   }
   labels = {

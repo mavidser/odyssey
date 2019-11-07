@@ -3,6 +3,7 @@ variable name {}
 variable username {}
 variable email {}
 variable elastic_ip {}
+variable server_ip {}
 variable hal_acme_email {}
 variable sal_acme_email {}
 variable samba_password {}
@@ -38,6 +39,7 @@ module "hal-9000" {
   base_domain = var.base_domain
   domain = "hal-9000.${var.base_domain}"
   sal_domain = "sal-9000.${var.base_domain}"
+  ip_address = var.elastic_ip
   name = var.name
   username = var.username
   email = var.email
@@ -55,6 +57,8 @@ module "sal-9000" {
   hostname = "sal-9000"
   base_domain = var.base_domain
   domain = "sal-9000.${var.base_domain}"
+  hal_domain = "hal-9000.${var.base_domain}"
+  ip_address = var.server_ip
   name = var.name
   username = var.username
   email = var.email

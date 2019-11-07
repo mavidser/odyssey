@@ -5,15 +5,17 @@ variable "hostname" {}
 variable "domain" {}
 variable "base_domain" {}
 variable "sal_domain" {}
+variable "ip_address" {}
 
 provider "docker" {
   version = "2.1.1"
-  host = "tcp://192.168.0.50:2376/"
+  host = "tcp://docker.${var.domain}:23760/"
   cert_path = "hal-9000/keys/docker"
 }
 
 provider "linux" {
-  host = "192.168.0.50"
+  host = "hal-9000.sidverma.io"
+  port = 220
   user = "sid"
 }
 

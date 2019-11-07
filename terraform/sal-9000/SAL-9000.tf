@@ -4,6 +4,8 @@ variable "email" {}
 variable "hostname" {}
 variable "domain" {}
 variable "base_domain" {}
+variable "hal_domain" {}
+variable "ip_address" {}
 
 provider "docker" {
   version = "2.1.1"
