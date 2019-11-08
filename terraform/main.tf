@@ -4,6 +4,7 @@ variable username {}
 variable email {}
 variable elastic_ip {}
 variable server_ip {}
+variable server_ip6 {}
 variable hal_acme_email {}
 variable sal_acme_email {}
 variable samba_password {}
@@ -12,6 +13,7 @@ variable radarr_auth {}
 variable sonarr_auth {}
 variable cloudflare_username {}
 variable cloudflare_key {}
+variable cloudflare_zone_id {}
 variable znc_password_plaintext {}
 variable znc_password_salt {}
 variable primary_irc_networks {}
@@ -31,6 +33,7 @@ variable vscode_password {}
 variable mysql_mailman_password {}
 variable mailman_hyperkitty_api_key {}
 variable mailman_secret_key {}
+variable mailman_admin_email {}
 variable wallabag_secret {}
 
 module "hal-9000" {
@@ -50,6 +53,7 @@ module "hal-9000" {
   sonarr_auth = var.sonarr_auth
   cloudflare_username = var.cloudflare_username
   cloudflare_key = var.cloudflare_key
+  cloudflare_zone_id = var.cloudflare_zone_id
 }
 
 module "sal-9000" {
@@ -59,12 +63,14 @@ module "sal-9000" {
   domain = "sal-9000.${var.base_domain}"
   hal_domain = "hal-9000.${var.base_domain}"
   ip_address = var.server_ip
+  ip6_address = var.server_ip6
   name = var.name
   username = var.username
   email = var.email
   sal_acme_email = var.sal_acme_email
   cloudflare_username = var.cloudflare_username
   cloudflare_key = var.cloudflare_key
+  cloudflare_zone_id = var.cloudflare_zone_id
   znc_password_plaintext = var.znc_password_plaintext
   znc_password_salt = var.znc_password_salt
   primary_irc_networks = var.primary_irc_networks
@@ -84,5 +90,11 @@ module "sal-9000" {
   mysql_mailman_password = var.mysql_mailman_password
   mailman_hyperkitty_api_key = var.mailman_hyperkitty_api_key
   mailman_secret_key = var.mailman_secret_key
+  mailman_admin_email = var.mailman_admin_email
   wallabag_secret = var.wallabag_secret
+}
+
+provider "cloudflare" {
+  email   = "${var.cloudflare_username}"
+  api_key = "${var.cloudflare_key}"
 }

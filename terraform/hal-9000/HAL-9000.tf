@@ -6,6 +6,7 @@ variable "domain" {}
 variable "base_domain" {}
 variable "sal_domain" {}
 variable "ip_address" {}
+variable "cloudflare_zone_id" {}
 
 provider "docker" {
   version = "2.1.1"
@@ -25,4 +26,20 @@ resource "docker_network" "traefik" {
 
 resource "docker_network" "monitoring" {
   name = "monitoring"
+}
+
+resource "cloudflare_record" "hal-9000" {
+  zone_id = var.cloudflare_zone_id
+  name    = var.domain
+  value   = var.ip_address
+  type    = "A"
+  ttl     = 1
+}
+
+resource "cloudflare_record" "hal-9000-wildcard" {
+  zone_id = var.cloudflare_zone_id
+  name    = "*.${var.domain}"
+  value   = var.ip_address
+  type    = "A"
+  ttl     = 1
 }

@@ -1,6 +1,7 @@
 variable mysql_mailman_password {}
 variable mailman_hyperkitty_api_key {}
 variable mailman_secret_key {}
+variable mailman_admin_email {}
 
 resource "docker_container" "mailman-core" {
   image = docker_image.mailman-core.latest
@@ -33,7 +34,7 @@ resource "docker_container" "mailman-core" {
   }
   upload {
     content = templatefile("${path.module}/config/mailman/core/mailman-extra.cfg.tmpl", {
-      email = var.email
+      email = var.mailman_admin_email
     })
     file = "/opt/mailman/core/mailman-extra.cfg"
   }
@@ -61,7 +62,7 @@ resource "docker_container" "mailman-web" {
     "DJANGO_ALLOWED_HOSTS=172.25.195.3",
     "UWSGI_STATIC_MAP=/static=/opt/mailman-web-data/static",
     "MAILMAN_ADMIN_USER=${var.username}",
-    "MAILMAN_ADMIN_EMAIL=${var.email}",
+    "MAILMAN_ADMIN_EMAIL=${var.mailman_admin_email}",
   ]
   labels = {
     "name" = "mailman-web"
@@ -171,4 +172,53 @@ resource "docker_image" "mailman-web" {
 
 resource "docker_image" "exim4" {
   name = "tianon/exim4:latest"
+}
+
+resource "cloudflare_record" "lists" {
+  zone_id = var.cloudflare_zone_id
+  name    = "lists.${var.base_domain}"
+  value   = var.ip_address
+  type    = "A"
+  ttl     = 1
+}
+
+resource "cloudflare_record" "lists-wildcard" {
+  zone_id = var.cloudflare_zone_id
+  name    = "*.lists.${var.base_domain}"
+  value   = var.ip_address
+  type    = "A"
+  ttl     = 1
+}
+
+resource "cloudflare_record" "lists-mx" {
+  zone_id = var.cloudflare_zone_id
+  name    = "lists.${var.base_domain}"
+  value   = var.domain
+  type    = "MX"
+  ttl     = 1
+  priority = 10
+}
+
+resource "cloudflare_record" "lists-spf" {
+  zone_id = var.cloudflare_zone_id
+  name    = "lists.${var.base_domain}"
+  value   = "v=spf1 ip4:${var.ip_address} ip6:${var.ip6_address} ~all"
+  type    = "TXT"
+  ttl     = 1
+}
+
+resource "cloudflare_record" "lists-dmarc" {
+  zone_id = var.cloudflare_zone_id
+  name    = "_dmarc.lists.${var.base_domain}"
+  value   = "v=DMARC1; p=none; fo=1; rua=mailto:${var.mailman_admin_email}"
+  type    = "TXT"
+  ttl     = 1
+}
+
+resource "cloudflare_record" "lists-dkim" {
+  zone_id = var.cloudflare_zone_id
+  name    = "default._domainkey.lists.${var.base_domain}"
+  value   = "v=DKIM1; t=y; k=rsa; p=${file("${path.module}/keys/mailman/publickey.pem")}"
+  type    = "TXT"
+  ttl     = 1
 }
