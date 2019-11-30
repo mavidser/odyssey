@@ -5,14 +5,6 @@ resource "docker_container" "node-exporter" {
   destroy_grace_seconds = 30
   restart = "unless-stopped"
   volumes {
-    host_path      = "/proc"
-    container_path = "/host/proc"
-  }
-  volumes {
-    host_path      = "/sys"
-    container_path = "/host/sys"
-  }
-  volumes {
     host_path      = "/"
     container_path = "/host_root"
     read_only      = true
@@ -21,9 +13,7 @@ resource "docker_container" "node-exporter" {
     "name" = "node-exporter"
   }
   command = [
-    "--path.procfs=/host/proc",
-    "--path.sysfs=/host/sys",
-    "--collector.filesystem.ignored-mount-points=\"^/((bin|boot|core|dev|etc|home|lib|media|mnt|opt|proc|root|run|sbin|srv|sys|tmp|usr|var))($$|/)\"",
+    "--path.rootfs=/host_root",
   ]
   networks_advanced {
     name = docker_network.monitoring.name
