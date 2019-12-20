@@ -17,6 +17,16 @@ resource "docker_container" "grafana" {
     "traefik.http.routers.grafana-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
+  env = [
+    "GF_DEFAULT_INSTANCE_NAME=grafana",
+    "GF_SERVER_ROOT_URL=https://grafana.${var.domain}",
+    "GF_SMTP_ENABLED=true",
+    "GF_SMTP_HOST=${var.odyssey_email_smtp_host}:${var.odyssey_email_smtp_port}",
+    "GF_SMTP_USER=${var.odyssey_email_user}",
+    "GF_SMTP_FROM_ADDRESS=${var.odyssey_email_user}",
+    "GF_SMTP_FROM_NAME=Odyssey - Grafana",
+    "GF_SMTP_PASSWORD=${var.odyssey_email_password}",
+  ]
   networks_advanced {
     name = docker_network.traefik.name
   }

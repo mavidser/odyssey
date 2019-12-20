@@ -39,5 +39,5 @@ resource "docker_container" "lounge" {
 }
 
 resource "docker_image" "lounge" {
-  name = "linuxserver/thelounge:3.2.0-ls20"
+  name = "linuxserver/thelounge:3.3.0-ls31"
 }

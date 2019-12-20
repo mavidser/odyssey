@@ -7,6 +7,10 @@ variable "base_domain" {}
 variable "sal_domain" {}
 variable "ip_address" {}
 variable "cloudflare_zone_id" {}
+variable odyssey_email_user {}
+variable odyssey_email_smtp_host {}
+variable odyssey_email_smtp_port {}
+variable odyssey_email_password {}
 
 provider "docker" {
   version = "2.1.1"

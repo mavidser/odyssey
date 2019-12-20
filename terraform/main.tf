@@ -35,6 +35,10 @@ variable mailman_hyperkitty_api_key {}
 variable mailman_secret_key {}
 variable mailman_admin_email {}
 variable wallabag_secret {}
+variable odyssey_email_user {}
+variable odyssey_email_smtp_host {}
+variable odyssey_email_smtp_port {}
+variable odyssey_email_password {}
 
 module "hal-9000" {
   source = "./hal-9000"
@@ -54,6 +58,10 @@ module "hal-9000" {
   cloudflare_username = var.cloudflare_username
   cloudflare_key = var.cloudflare_key
   cloudflare_zone_id = var.cloudflare_zone_id
+  odyssey_email_user = var.odyssey_email_user
+  odyssey_email_smtp_host = var.odyssey_email_smtp_host
+  odyssey_email_smtp_port = var.odyssey_email_smtp_port
+  odyssey_email_password = var.odyssey_email_password
 }
 
 module "sal-9000" {
@@ -92,6 +100,10 @@ module "sal-9000" {
   mailman_secret_key = var.mailman_secret_key
   mailman_admin_email = var.mailman_admin_email
   wallabag_secret = var.wallabag_secret
+  odyssey_email_user = var.odyssey_email_user
+  odyssey_email_smtp_host = var.odyssey_email_smtp_host
+  odyssey_email_smtp_port = var.odyssey_email_smtp_port
+  odyssey_email_password = var.odyssey_email_password
 }
 
 provider "cloudflare" {
