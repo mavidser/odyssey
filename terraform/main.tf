@@ -39,6 +39,10 @@ variable odyssey_email_user {}
 variable odyssey_email_smtp_host {}
 variable odyssey_email_smtp_port {}
 variable odyssey_email_password {}
+variable restic_b2_repo {}
+variable restic_password {}
+variable b2_account_id {}
+variable b2_account_key {}
 
 module "hal-9000" {
   source = "./hal-9000"
@@ -104,6 +108,10 @@ module "sal-9000" {
   odyssey_email_smtp_host = var.odyssey_email_smtp_host
   odyssey_email_smtp_port = var.odyssey_email_smtp_port
   odyssey_email_password = var.odyssey_email_password
+  restic_b2_repo = var.restic_b2_repo
+  restic_password = var.restic_password
+  b2_account_id = var.b2_account_id
+  b2_account_key = var.b2_account_key
 }
 
 provider "cloudflare" {
