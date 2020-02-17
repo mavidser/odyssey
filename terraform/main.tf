@@ -24,7 +24,7 @@ variable mysql_firefly_password {}
 variable firefox_sync_secret {}
 variable radicale_auth {}
 variable httptunnel_clients {}
-variable cloud_torrent_auth {}
+variable simple_torrent_auth {}
 variable monica_app_key {}
 variable mysql_monica_password {}
 variable monica_hash_salt {}
@@ -95,7 +95,7 @@ module "sal-9000" {
   firefox_sync_secret = var.firefox_sync_secret
   radicale_auth = var.radicale_auth
   httptunnel_clients = var.httptunnel_clients
-  cloud_torrent_auth = var.cloud_torrent_auth
+  simple_torrent_auth = var.simple_torrent_auth
   monica_app_key = var.monica_app_key
   mysql_monica_password = var.mysql_monica_password
   monica_hash_salt = var.monica_hash_salt
