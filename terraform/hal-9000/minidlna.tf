@@ -20,6 +20,9 @@ resource "docker_container" "minidlna" {
     host_path = "/opt/minidlna"
     container_path = "/var/cache/minidlna"
   }
+  tmpfs = {
+    "/run" = "rw"
+  }
   upload {
     content = file("${path.module}/config/minidlna/minidlna.conf")
     file = "/etc/minidlna.conf"
