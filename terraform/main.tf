@@ -119,6 +119,6 @@ module "sal-9000" {
 }
 
 provider "cloudflare" {
-  email   = "${var.cloudflare_username}"
-  api_key = "${var.cloudflare_key}"
+  email   = var.cloudflare_username
+  api_key = var.cloudflare_key
 }

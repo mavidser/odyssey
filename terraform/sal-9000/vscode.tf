@@ -7,11 +7,11 @@ resource "docker_container" "vscode" {
   destroy_grace_seconds = 30
   restart = "unless-stopped"
   volumes {
-    host_path = "${linux_folder.vscode_project.path}"
+    host_path = linux_folder.vscode_project.path
     container_path = "/home/coder/project"
   }
   volumes {
-    host_path = "${linux_folder.vscode_share.path}"
+    host_path = linux_folder.vscode_share.path
     container_path = "/home/coder/.local/share/code-server"
   }
   labels = {
