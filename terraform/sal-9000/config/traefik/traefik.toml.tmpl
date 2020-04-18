@@ -22,7 +22,7 @@
   dashboard = true
 
 [log]
-  level = "DEBUG"
+  level = "ERROR"
 
 [accessLog]
 
@@ -30,9 +30,6 @@
   endpoint = "unix:///var/run/docker.sock"
   defaultRule = "Host(`{{ normalize .Name }}.${domain}`)"
   exposedByDefault = false
-
-[providers.file]
-  filename = "/etc/traefik/dynamic.toml"
 
 [metrics]
   [metrics.prometheus]
