@@ -32,7 +32,7 @@ resource "docker_container" "vscode" {
 }
 
 resource "docker_image" "vscode" {
-  name = "codercom/code-server:2.1674-vsc1.39.2"
+  name = "codercom/code-server:3.1.1"
 }
 
 resource "linux_folder" "vscode_project" {

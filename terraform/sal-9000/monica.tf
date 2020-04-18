@@ -59,7 +59,7 @@ resource "docker_container" "monica" {
 }
 
 resource "docker_image" "monica" {
-  name = "monicahq/monicahq:v2.16.0"
+  name = "monicahq/monicahq:v2.17.0"
 }
 
 resource "mysql_database" "monica" {

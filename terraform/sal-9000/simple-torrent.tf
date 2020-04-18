@@ -25,5 +25,5 @@ resource "docker_container" "simple-torrent" {
 }
 
 resource "docker_image" "simple-torrent" {
-  name = "boypt/cloud-torrent:latest"
+  name = "boypt/cloud-torrent:1.2.10"
 }

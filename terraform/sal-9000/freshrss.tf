@@ -24,5 +24,5 @@ resource "docker_container" "freshrss" {
 }
 
 resource "docker_image" "freshrss" {
-  name = "freshrss/freshrss:1.14.3"
+  name = "freshrss/freshrss:1.16.0"
 }

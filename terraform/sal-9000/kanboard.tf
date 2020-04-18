@@ -24,5 +24,5 @@ resource "docker_container" "kanboard" {
 }
 
 resource "docker_image" "kanboard" {
-  name = "kanboard/kanboard:v1.2.10"
+  name = "kanboard/kanboard:v1.2.14"
 }
