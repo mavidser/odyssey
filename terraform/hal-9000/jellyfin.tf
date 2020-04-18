@@ -23,9 +23,7 @@ resource "docker_container" "jellyfin" {
   labels = {
     "name" = "jellyfin"
     "traefik.enable" = "true"
-    "traefik.http.routers.jellyfin.entrypoints" = "web"
-    "traefik.http.routers.jellyfin.middlewares" = "https-redirect@file"
-    "traefik.http.routers.jellyfin-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.jellyfin.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {
@@ -34,5 +32,5 @@ resource "docker_container" "jellyfin" {
 }
 
 resource "docker_image" "jellyfin" {
-  name = "jellyfin/jellyfin:10.3.7-arm"
+  name = "jellyfin/jellyfin:10.5.4-arm"
 }

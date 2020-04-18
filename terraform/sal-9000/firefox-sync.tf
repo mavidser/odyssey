@@ -14,12 +14,10 @@ resource "docker_container" "firefox-sync" {
   labels = {
     "name" = "firefox-sync"
     "traefik.enable" = "true"
-    "traefik.http.services.firefox-sync-svc.loadbalancer.server.port" = "5000"
-    "traefik.http.routers.firefox-sync-ssl.service" = "firefox-sync-svc"
-    "traefik.http.routers.firefox-sync.entrypoints" = "web"
-    "traefik.http.routers.firefox-sync.middlewares" = "https-redirect@file"
-    "traefik.http.routers.firefox-sync-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.firefox-sync.entrypoints" = "websecure"
+    "traefik.http.services.firefox-sync.loadbalancer.server.port" = "5000"
     "traefik.docker.network" = docker_network.traefik.name
+
   }
   networks_advanced {
     name = docker_network.traefik.name

@@ -7,11 +7,8 @@ resource "docker_container" "syncthing" {
   labels = {
     "name" = "syncthing"
     "traefik.enable" = "true"
-    "traefik.http.services.syncthing-svc.loadbalancer.server.port" = "8384"
-    "traefik.http.routers.syncthing-ssl.service" = "syncthing-svc"
-    "traefik.http.routers.syncthing.entrypoints" = "web"
-    "traefik.http.routers.syncthing.middlewares" = "https-redirect@file"
-    "traefik.http.routers.syncthing-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.syncthing.entrypoints" = "websecure"
+    "traefik.http.services.syncthing.loadbalancer.server.port" = "8384"
     "traefik.docker.network" = docker_network.traefik.name
   }
   ports {

@@ -17,13 +17,10 @@ resource "docker_container" "httptunnel" {
   labels = {
     "name" = "httptunnel"
     "traefik.enable" = "true"
+    "traefik.http.routers.httptunnel.entrypoints" = "websecure"
     "traefik.http.routers.httptunnel.rule" = "HostRegexp(`tun.${var.domain}`, `{subdomain:[a-z0-9-]+}.tun.${var.domain}`)"
-    "traefik.http.routers.httptunnel-ssl.rule" = "HostRegexp(`tun.${var.domain}`, `{subdomain:[a-z0-9-]+}.tun.${var.domain}`)"
-    "traefik.http.routers.httptunnel.entrypoints" = "web"
-    "traefik.http.routers.httptunnel.middlewares" = "https-redirect@file"
-    "traefik.http.routers.httptunnel-ssl.tls.certresolver" = "default"
-    "traefik.http.routers.httptunnel-ssl.tls.domains[0].main" = "tun.${var.domain}"
-    "traefik.http.routers.httptunnel-ssl.tls.domains[0].sans" = "*.tun.${var.domain}"
+    "traefik.http.routers.httptunnel.tls.domains[0].main" = "tun.${var.domain}"
+    "traefik.http.routers.httptunnel.tls.domains[0].sans" = "*.tun.${var.domain}"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

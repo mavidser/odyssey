@@ -21,11 +21,9 @@ resource "docker_container" "sonarr" {
   labels = {
     "name" = "sonarr"
     "traefik.enable" = "true"
-    "traefik.http.routers.sonarr.entrypoints" = "web"
-    "traefik.http.routers.sonarr.middlewares" = "https-redirect@file"
+    "traefik.http.routers.sonarr.entrypoints" = "websecure"
+    "traefik.http.routers.sonarr.middlewares" = "sonarr-auth"
     "traefik.http.middlewares.sonarr-auth.basicauth.users" = var.sonarr_auth
-    "traefik.http.routers.sonarr-ssl.middlewares" = "sonarr-auth"
-    "traefik.http.routers.sonarr-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

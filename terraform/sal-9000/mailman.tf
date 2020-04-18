@@ -68,11 +68,8 @@ resource "docker_container" "mailman-web" {
   labels = {
     "name" = "mailman-web"
     "traefik.enable" = "true"
-    "traefik.http.routers.mailman.rule" = "Host(`lists.${var.base_domain}`)"
-    "traefik.http.routers.mailman-ssl.rule" = "Host(`lists.${var.base_domain}`)"
-    "traefik.http.routers.mailman.entrypoints" = "web"
-    "traefik.http.routers.mailman.middlewares" = "https-redirect@file"
-    "traefik.http.routers.mailman-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.mailman-web.entrypoints" = "websecure"
+    "traefik.http.routers.mailman-web.rule" = "Host(`lists.${var.base_domain}`)"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

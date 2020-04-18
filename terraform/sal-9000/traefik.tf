@@ -1,3 +1,4 @@
+variable traefik_auth {}
 variable cloudflare_username {}
 variable cloudflare_key {}
 variable sal_acme_email {}
@@ -17,16 +18,21 @@ resource "docker_container" "traefik" {
     host_path      = "/opt/traefik/acme"
     container_path = "/acme"
   }
+  labels = {
+    "name" = "traefik"
+    "traefik.enable" = "true"
+    "traefik.http.routers.traefik.entrypoints" = "websecure"
+    "traefik.http.routers.traefik.service" = "api@internal"
+    "traefik.http.routers.traefik.middlewares" = "traefik-auth"
+    "traefik.http.middlewares.traefik-auth.basicauth.users" = var.traefik_auth
+    "traefik.docker.network" = docker_network.traefik.name
+  }
   upload {
     content = templatefile("${path.module}/config/traefik/traefik.toml.tmpl", {
       domain = var.domain
       email = var.sal_acme_email
     })
     file = "/etc/traefik/traefik.toml"
-  }
-  upload {
-    content = file("${path.module}/config/traefik/dynamic.toml")
-    file = "/etc/traefik/dynamic.toml"
   }
   ports {
     internal = 443
@@ -39,9 +45,6 @@ resource "docker_container" "traefik" {
   ports {
     internal = 6697
     external = 6697
-  }
-  labels = {
-    "name" = "traefik"
   }
   networks_advanced {
     name = docker_network.monitoring.name
@@ -56,5 +59,5 @@ resource "docker_container" "traefik" {
 }
 
 resource "docker_image" "traefik" {
-  name = "traefik:2.0.0-beta1"
+  name = "traefik:2.2.0"
 }

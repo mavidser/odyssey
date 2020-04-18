@@ -25,9 +25,7 @@ resource "docker_container" "radicale" {
   labels = {
     "name" = "radicale"
     "traefik.enable" = "true"
-    "traefik.http.routers.radicale.entrypoints" = "web"
-    "traefik.http.routers.radicale.middlewares" = "https-redirect@file"
-    "traefik.http.routers.radicale-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.radicale.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

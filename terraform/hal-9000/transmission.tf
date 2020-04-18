@@ -41,13 +41,10 @@ resource "docker_container" "transmission" {
   labels = {
     "name" = "transmission"
     "traefik.enable" = "true"
-    "traefik.http.services.transmission-svc.loadbalancer.server.port" = "9091"
-    "traefik.http.routers.transmission-ssl.service" = "transmission-svc"
-    "traefik.http.routers.transmission.entrypoints" = "web"
-    "traefik.http.routers.transmission.middlewares" = "https-redirect@file"
+    "traefik.http.routers.transmission.entrypoints" = "websecure"
+    "traefik.http.services.transmission.loadbalancer.server.port" = "9091"
+    "traefik.http.routers.transmission.middlewares" = "transmission-auth"
     "traefik.http.middlewares.transmission-auth.basicauth.users" = var.transmission_auth
-    "traefik.http.routers.transmission-ssl.middlewares" = "transmission-auth"
-    "traefik.http.routers.transmission-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

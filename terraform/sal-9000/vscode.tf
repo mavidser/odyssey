@@ -17,9 +17,7 @@ resource "docker_container" "vscode" {
   labels = {
     "name" = "vscode"
     "traefik.enable" = "true"
-    "traefik.http.routers.vscode.entrypoints" = "web"
-    "traefik.http.routers.vscode.middlewares" = "https-redirect@file"
-    "traefik.http.routers.vscode-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.vscode.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

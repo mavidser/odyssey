@@ -15,9 +15,7 @@ resource "docker_container" "jackett" {
   labels = {
     "name" = "jackett"
     "traefik.enable" = "true"
-    "traefik.http.routers.jackett.entrypoints" = "web"
-    "traefik.http.routers.jackett.middlewares" = "https-redirect@file"
-    "traefik.http.routers.jackett-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.jackett.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

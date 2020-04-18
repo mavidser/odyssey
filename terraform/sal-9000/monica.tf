@@ -15,10 +15,8 @@ resource "docker_container" "monica" {
   labels = {
     "name" = "monica"
     "traefik.enable" = "true"
+    "traefik.http.routers.monica.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
-    "traefik.http.routers.monica.entrypoints" = "web"
-    "traefik.http.routers.monica.middlewares" = "https-redirect@file"
-    "traefik.http.routers.monica-ssl.tls.certresolver" = "default"
   }
   networks_advanced {
     name = docker_network.mysql.name
@@ -61,7 +59,7 @@ resource "docker_container" "monica" {
 }
 
 resource "docker_image" "monica" {
-  name = "monicahq/monicahq:v2.14.0"
+  name = "monicahq/monicahq:v2.16.0"
 }
 
 resource "mysql_database" "monica" {

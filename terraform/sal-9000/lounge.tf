@@ -28,9 +28,7 @@ resource "docker_container" "lounge" {
   labels = {
     "name" = "lounge"
     "traefik.enable" = "true"
-    "traefik.http.routers.lounge.entrypoints" = "web"
-    "traefik.http.routers.lounge.middlewares" = "https-redirect@file"
-    "traefik.http.routers.lounge-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.lounge.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

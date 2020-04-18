@@ -10,13 +10,10 @@ resource "docker_container" "orion-web" {
   labels = {
     name = "orion-web"
     "traefik.enable" = "true"
+    "traefik.http.routers.orion-web.entrypoints" = "websecure"
     "traefik.http.routers.orion-web.rule" = "Host(`orion.${var.domain}`)"
-    "traefik.http.routers.orion-web-ssl.rule" = "Host(`orion.${var.domain}`)"
-    "traefik.http.routers.orion-web.entrypoints" = "web"
-    "traefik.http.routers.orion-web.middlewares" = "https-redirect@file"
+    "traefik.http.routers.orion-web.middlewares" = "orion-web-auth"
     "traefik.http.middlewares.orion-web-auth.basicauth.users" = var.orion_auth
-    "traefik.http.routers.orion-web-ssl.middlewares" = "orion-web-auth"
-    "traefik.http.routers.orion-web-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {
@@ -33,13 +30,10 @@ resource "docker_container" "orion-server" {
   labels = {
     name = "orion-server"
     "traefik.enable" = "true"
+    "traefik.http.routers.orion-server.entrypoints" = "websecure"
     "traefik.http.routers.orion-server.rule" = "Host(`orion.${var.domain}`) && PathPrefix(`/api/`)"
-    "traefik.http.routers.orion-server-ssl.rule" = "Host(`orion.${var.domain}`) && PathPrefix(`/api/`)"
-    "traefik.http.routers.orion-server.entrypoints" = "web"
-    "traefik.http.routers.orion-server.middlewares" = "https-redirect@file"
+    "traefik.http.routers.orion-server.middlewares" = "orion-server-auth"
     "traefik.http.middlewares.orion-server-auth.basicauth.users" = var.orion_auth
-    "traefik.http.routers.orion-server-ssl.middlewares" = "orion-server-auth"
-    "traefik.http.routers.orion-server-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

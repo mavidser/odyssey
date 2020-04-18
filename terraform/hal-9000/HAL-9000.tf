@@ -14,13 +14,12 @@ variable odyssey_email_password {}
 
 provider "docker" {
   version = "2.1.1"
-  host = "tcp://docker.${var.domain}:23760/"
-  cert_path = "hal-9000/keys/docker"
+  host = "ssh://sid@hal-9000.local:22"
 }
 
 provider "linux" {
-  host = "hal-9000.sidverma.io"
-  port = 220
+  host = "hal-9000.local"
+  port = 22
   user = "sid"
 }
 

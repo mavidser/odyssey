@@ -13,13 +13,10 @@ resource "docker_container" "simple-torrent" {
   labels = {
     "name" = "simple-torrent"
     "traefik.enable" = "true"
-    "traefik.http.services.simple-torrent-svc.loadbalancer.server.port" = "3000"
-    "traefik.http.routers.simple-torrent-ssl.service" = "simple-torrent-svc"
-    "traefik.http.routers.simple-torrent.entrypoints" = "web"
-    "traefik.http.routers.simple-torrent.middlewares" = "https-redirect@file"
+    "traefik.http.routers.simple-torrent.entrypoints" = "websecure"
+    "traefik.http.services.simple-torrent.loadbalancer.server.port" = "3000"
+    "traefik.http.routers.simple-torrent.middlewares" = "simple-torrent-auth"
     "traefik.http.middlewares.simple-torrent-auth.basicauth.users" = var.simple_torrent_auth
-    "traefik.http.routers.simple-torrent-ssl.middlewares" = "simple-torrent-auth"
-    "traefik.http.routers.simple-torrent-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

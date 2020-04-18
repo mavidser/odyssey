@@ -33,18 +33,12 @@ resource "docker_container" "znc" {
   labels = {
     "name" = "znc"
     "traefik.enable" = "true"
-    "traefik.http.services.znc-svc.loadbalancer.server.port" = "6667"
-    "traefik.http.routers.znc-ssl.service" = "znc-svc"
-    "traefik.http.routers.znc.rule" = "Host(`znc.${var.domain}`)"
-    "traefik.http.routers.znc-ssl.rule" = "Host(`znc.${var.domain}`)"
-    "traefik.http.routers.znc.entrypoints" = "web"
-    "traefik.http.routers.znc.middlewares" = "https-redirect@file"
-    "traefik.http.routers.znc-ssl.tls.certresolver" = "default"
-    "traefik.tcp.routers.znc-tls.entrypoints" = "irc"
-    "traefik.tcp.routers.znc-tls.tls.certresolver" = "default"
-    "traefik.tcp.routers.znc-tls.rule" = "HostSNI(`znc.${var.domain}`)"
-    "traefik.tcp.routers.znc-tls.service" = "znc-svc"
-    "traefik.tcp.services.znc-svc.loadbalancer.server.port" = "6667"
+    "traefik.http.routers.znc.entrypoints" = "websecure"
+    "traefik.http.services.znc.loadbalancer.server.port" = "6667"
+    "traefik.tcp.routers.znc.entrypoints" = "irc"
+    "traefik.tcp.routers.znc.rule" = "HostSNI(`znc.${var.domain}`)"
+    "traefik.tcp.routers.znc.tls.certresolver" = "default"
+    "traefik.tcp.services.znc.loadbalancer.server.port" = "6667"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

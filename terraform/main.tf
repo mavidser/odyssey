@@ -45,6 +45,7 @@ variable b2_account_id {}
 variable b2_account_key {}
 variable mysql_orion_password {}
 variable orion_auth {}
+variable traefik_auth {}
 
 module "hal-9000" {
   source = "./hal-9000"
@@ -68,6 +69,7 @@ module "hal-9000" {
   odyssey_email_smtp_host = var.odyssey_email_smtp_host
   odyssey_email_smtp_port = var.odyssey_email_smtp_port
   odyssey_email_password = var.odyssey_email_password
+  traefik_auth = var.traefik_auth
 }
 
 module "sal-9000" {
@@ -116,6 +118,7 @@ module "sal-9000" {
   b2_account_key = var.b2_account_key
   mysql_orion_password = var.mysql_orion_password
   orion_auth = var.orion_auth
+  traefik_auth = var.traefik_auth
 }
 
 provider "cloudflare" {

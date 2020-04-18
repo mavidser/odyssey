@@ -14,9 +14,7 @@ resource "docker_container" "firefly" {
   labels = {
     "name" = "firefly"
     "traefik.enable" = "true"
-    "traefik.http.routers.firefly.entrypoints" = "web"
-    "traefik.http.routers.firefly.middlewares" = "https-redirect@file"
-    "traefik.http.routers.firefly-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.firefly.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {
@@ -38,7 +36,7 @@ resource "docker_container" "firefly" {
 }
 
 resource "docker_image" "firefly" {
-  name = "jc5x/firefly-iii:release-4.8.1.8"
+  name = "jc5x/firefly-iii:release-5.1.1"
 }
 
 resource "mysql_database" "firefly" {

@@ -21,11 +21,9 @@ resource "docker_container" "radarr" {
   labels = {
     "name" = "radarr"
     "traefik.enable" = "true"
-    "traefik.http.routers.radarr.entrypoints" = "web"
-    "traefik.http.routers.radarr.middlewares" = "https-redirect@file"
+    "traefik.http.routers.radarr.entrypoints" = "websecure"
+    "traefik.http.routers.radarr.middlewares" = "radarr-auth"
     "traefik.http.middlewares.radarr-auth.basicauth.users" = var.radarr_auth
-    "traefik.http.routers.radarr-ssl.middlewares" = "radarr-auth"
-    "traefik.http.routers.radarr-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

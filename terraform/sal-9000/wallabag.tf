@@ -17,9 +17,7 @@ resource "docker_container" "wallabag" {
   labels = {
     "name" = "wallabag"
     "traefik.enable" = "true"
-    "traefik.http.routers.wallabag.entrypoints" = "web"
-    "traefik.http.routers.wallabag.middlewares" = "https-redirect@file"
-    "traefik.http.routers.wallabag-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.wallabag.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

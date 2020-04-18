@@ -15,9 +15,7 @@ resource "docker_container" "kanboard" {
   labels = {
     "name" = "kanboard"
     "traefik.enable" = "true"
-    "traefik.http.routers.kanboard.entrypoints" = "web"
-    "traefik.http.routers.kanboard.middlewares" = "https-redirect@file"
-    "traefik.http.routers.kanboard-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.kanboard.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

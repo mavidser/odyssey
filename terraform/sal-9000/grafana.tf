@@ -12,9 +12,7 @@ resource "docker_container" "grafana" {
   labels = {
     "name" = "grafana"
     "traefik.enable" = "true"
-    "traefik.http.routers.grafana.entrypoints" = "web"
-    "traefik.http.routers.grafana.middlewares" = "https-redirect@file"
-    "traefik.http.routers.grafana-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.grafana.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   env = [

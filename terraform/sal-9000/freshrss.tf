@@ -11,9 +11,7 @@ resource "docker_container" "freshrss" {
   labels = {
     "name" = "freshrss"
     "traefik.enable" = "true"
-    "traefik.http.routers.freshrss.entrypoints" = "web"
-    "traefik.http.routers.freshrss.middlewares" = "https-redirect@file"
-    "traefik.http.routers.freshrss-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.freshrss.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {

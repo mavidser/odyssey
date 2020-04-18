@@ -15,9 +15,7 @@ resource "docker_container" "calibre" {
   labels = {
     "name" = "calibre"
     "traefik.enable" = "true"
-    "traefik.http.routers.calibre.entrypoints" = "web"
-    "traefik.http.routers.calibre.middlewares" = "https-redirect@file"
-    "traefik.http.routers.calibre-ssl.tls.certresolver" = "default"
+    "traefik.http.routers.calibre.entrypoints" = "websecure"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {
@@ -26,5 +24,5 @@ resource "docker_container" "calibre" {
 }
 
 resource "docker_image" "calibre" {
-  name = "linuxserver/calibre-web:arm32v7-0.6.4-ls29"
+  name = "linuxserver/calibre-web:arm32v7-0.6.6-ls53"
 }

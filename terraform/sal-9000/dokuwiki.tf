@@ -13,11 +13,8 @@ resource "docker_container" "dokuwiki" {
   labels = {
     "name" = "dokuwiki"
     "traefik.enable" = "true"
+    "traefik.http.routers.dokuwiki.entrypoints" = "websecure"
     "traefik.http.routers.dokuwiki.rule" = "Host(`wiki.${var.domain}`)"
-    "traefik.http.routers.dokuwiki-ssl.rule" = "Host(`wiki.${var.domain}`)"
-    "traefik.http.routers.dokuwiki.entrypoints" = "web"
-    "traefik.http.routers.dokuwiki.middlewares" = "https-redirect@file"
-    "traefik.http.routers.dokuwiki-ssl.tls.certresolver" = "default"
     "traefik.docker.network" = docker_network.traefik.name
   }
   networks_advanced {
