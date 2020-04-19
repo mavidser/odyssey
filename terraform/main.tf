@@ -46,6 +46,7 @@ variable b2_account_key {}
 variable mysql_orion_password {}
 variable orion_auth {}
 variable traefik_auth {}
+variable linx_authkey_hash {}
 
 module "hal-9000" {
   source = "./hal-9000"
@@ -119,6 +120,7 @@ module "sal-9000" {
   mysql_orion_password = var.mysql_orion_password
   orion_auth = var.orion_auth
   traefik_auth = var.traefik_auth
+  linx_authkey_hash = var.linx_authkey_hash
 }
 
 provider "cloudflare" {
