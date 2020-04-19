@@ -25,7 +25,7 @@ resource "docker_container" "syncthing" {
     container_path = "/config"
   }
   volumes {
-    host_path = "/opt/syncthing/data"
+    host_path = "/storage/syncthing/data"
     container_path = "/data"
   }
   networks_advanced {

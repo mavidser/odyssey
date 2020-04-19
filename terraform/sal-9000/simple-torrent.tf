@@ -7,7 +7,7 @@ resource "docker_container" "simple-torrent" {
   destroy_grace_seconds = 30
   restart = "unless-stopped"
   volumes {
-    host_path = "/opt/simple-torrent"
+    host_path = "/storage/simple-torrent"
     container_path = "/downloads"
   }
   labels = {

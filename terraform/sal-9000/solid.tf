@@ -7,13 +7,11 @@ resource "docker_container" "solid" {
   labels = {
     "name" = "solid"
     "traefik.enable" = "true"
-    "traefik.http.routers.solid.entrypoints" = "websecure"
-    "traefik.tcp.routers.solid-tcp.entrypoints" = "websecure"
-    "traefik.tcp.routers.solid-tcp.rule" = "HostSNI(`solid.${var.domain}`)"
-    "traefik.tcp.routers.solid-tcp.tls.certresolver" = "default"
-    "traefik.tcp.routers.solid-tcp.tls.passthrough" = "true"
-    "traefik.tcp.routers.solid-tcp.service" = "solid-svc"
-    "traefik.tcp.services.solid-svc.loadbalancer.server.port" = "8443"
+    "traefik.tcp.routers.solid.entrypoints" = "websecure"
+    "traefik.tcp.routers.solid.rule" = "HostSNI(`solid.${var.domain}`)"
+    "traefik.tcp.routers.solid.tls.certresolver" = "default"
+    "traefik.tcp.routers.solid.tls.passthrough" = "true"
+    "traefik.tcp.services.solid.loadbalancer.server.port" = "8443"
     "traefik.docker.network" = docker_network.traefik.name
   }
   ports {
