@@ -12,6 +12,10 @@ resource "docker_container" "kanboard" {
     host_path = "/opt/kanboard/plugins"
     container_path = "/var/www/app/plugins"
   }
+  upload {
+    content = file("${path.module}/config/kanboard/config.php")
+    file = "/var/www/app/data/config.php"
+  }
   labels = {
     "name" = "kanboard"
     "traefik.enable" = "true"
