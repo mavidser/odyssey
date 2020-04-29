@@ -7,8 +7,12 @@ resource "docker_container" "linx" {
   destroy_grace_seconds = 30
   restart = "unless-stopped"
   volumes {
-    host_path = "/storage/linx"
-    container_path = "/data"
+    host_path = linux_folder.linx_files.path
+    container_path = "/data/files"
+  }
+  volumes {
+    host_path = linux_folder.linx_meta.path
+    container_path = "/data/meta"
   }
   labels = {
     "name" = "linx"
@@ -27,9 +31,17 @@ resource "docker_container" "linx" {
   command = [
     "-authfile", "/authfile",
     "-basicauth",
-    "-maxsize", "4294967296",
-    "-maxexpiry", "0",
   ]
+}
+
+resource "linux_folder" "linx_files" {
+  path = "/storage/linx/files"
+  owner = "nobody:nogroup"
+}
+
+resource "linux_folder" "linx_meta" {
+  path = "/storage/linx/meta"
+  owner = "nobody:nogroup"
 }
 
 resource "docker_image" "linx" {
