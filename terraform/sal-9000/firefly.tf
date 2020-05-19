@@ -36,7 +36,7 @@ resource "docker_container" "firefly" {
 }
 
 resource "docker_image" "firefly" {
-  name = "jc5x/firefly-iii:release-5.2.2"
+  name = "jc5x/firefly-iii:release-5.2.5"
 }
 
 resource "mysql_database" "firefly" {

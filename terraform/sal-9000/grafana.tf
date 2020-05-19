@@ -34,7 +34,7 @@ resource "docker_container" "grafana" {
 }
 
 resource "docker_image" "grafana" {
-  name = "grafana/grafana:6.7.2"
+  name = "grafana/grafana:7.0.0"
 }
 
 resource "linux_folder" "grafana" {
