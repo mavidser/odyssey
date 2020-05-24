@@ -13,11 +13,11 @@ resource "docker_container" "loki" {
   restart = "unless-stopped"
   volumes {
     container_path = "/loki"
-    host_path      = "/opt/loki/loki"
+    host_path      = "/opt/loki"
   }
-  volumes {
-    container_path = "/tmp/loki"
-    host_path      = "/opt/loki/tmp/loki"
+  upload {
+    content = file("${path.module}/config/logging/loki.yaml")
+    file = "/etc/loki/config.yaml"
   }
   networks_advanced {
     name = docker_network.monitoring.name
@@ -30,7 +30,7 @@ resource "docker_container" "loki" {
     "name" = "loki"
   }
   command = [
-    "-config.file=/etc/loki/local-config.yaml",
+    "-config.file=/etc/loki/config.yaml",
   ]
 }
 
@@ -70,9 +70,19 @@ resource "docker_container" "promtail" {
 }
 
 resource "docker_image" "loki" {
-  name = "grafana/loki:v0.3.0"
+  name = "grafana/loki:1.5.0"
 }
 
 resource "docker_image" "promtail" {
-  name = "grafana/promtail:v0.3.0"
+  name = "grafana/promtail:1.5.0"
+}
+
+resource "linux_folder" "loki" {
+  path = "/opt/loki"
+  owner = "${linux_user.loki.name}:${linux_user.loki.name}"
+}
+
+resource "linux_user" "loki" {
+  name = "loki"
+  uid = "10001"
 }
